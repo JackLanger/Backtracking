@@ -63,7 +63,8 @@ public class Main {
 
   private static boolean canNotCheck(int[] path, int j, int currentIndex) {
 
-    for (int k = currentIndex; k >= 0; k--) {
+
+    for (int k = currentIndex-1; k >= 0; k--) {
       if (path[k] == j - (k - currentIndex) || path[k] == j + (k - currentIndex) || path[k] - j == 0)
         return false;
     }
