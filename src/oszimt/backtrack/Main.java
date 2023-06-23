@@ -18,7 +18,6 @@ public class Main {
 
     List<int[]> res = new ArrayList<>();
 
-
     int[] path = new int[size];
     Arrays.fill(path, -1);
     outer:
@@ -35,7 +34,7 @@ public class Main {
 
           if (x == size - 1) {
             res.add(deepCopy(path));
-            x -= 2;
+            x--;
 
           } else
             continue outer;
@@ -75,7 +74,7 @@ public class Main {
   }
 
 
-  private static boolean canNotCheck(int[] path, int currentVertical, int currentHorizontal) {
+  public static boolean canNotCheck(int[] path, int currentVertical, int currentHorizontal) {
 
     /*
 
@@ -87,7 +86,10 @@ public class Main {
 
     */
     for (int k = currentHorizontal - 1; k >= 0; k--) {
-      if (path[k] == currentVertical - (k - currentHorizontal) || path[k] == currentVertical + (k - currentHorizontal) || path[k] - currentVertical == 0)
+      int delta = (k - currentHorizontal);
+      if (path[k] == currentVertical - delta
+          || path[k] == currentVertical + delta
+          || path[k] - currentVertical == 0)
         return false;
     }
     return true;
