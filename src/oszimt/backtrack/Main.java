@@ -87,10 +87,10 @@ public class Main {
     */
     for (int k = currentHorizontal - 1; k >= 0; k--) {
       int delta = (k - currentHorizontal);
-      if (path[k] == currentVertical - delta
-          || path[k] == currentVertical + delta
-          || path[k] - currentVertical == 0)
+
+      if (currentVertical == path[k] || currentVertical - path[k] == currentHorizontal)
         return false;
+
     }
     return true;
   }
