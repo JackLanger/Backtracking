@@ -22,23 +22,23 @@ public class Main {
       int[] path = new int[size];
       path[0] = a;
       outer:
-      for (int i = 1; i < size; i++) {
+      for (int x = 1; x < size; x++) {
 
-        if (i < size - 1) {
-          path[i + 1] = 0;
-          isRevistedZeros[i + 1] = false;
+        if (x < size - 1) {
+          path[x + 1] = 0;
+          isRevistedZeros[x + 1] = false;
         }
 
-        for (int j = 0; j < size; j++) {
+        for (int y = 0; y < size; y++) {
 
-          if (isValidPosition(path, i, j, isRevistedZeros[i])) {
-            path[i] = j;
+          if (isValidPosition(path, x, y, isRevistedZeros[x])) {
+            path[x] = y;
             continue outer;
 
-          } else if (j == size - 1) {
+          } else if (y == size - 1) {
 
-            isRevistedZeros[i - 1] = true;
-            i -= 2;// reduce i to step back
+            isRevistedZeros[x - 1] = true;
+            x -= 2;// reduce i to step back
 
           }
         }
@@ -52,23 +52,19 @@ public class Main {
 
 
   private static boolean isValidPosition(int[] path, int i, int j, boolean isRevistedZero) {
-    // check horizontal
 
-    for (int k = 0; k < i; k++) {
-      if (path[k] == j) return false;
-    }
 
     // check if the placement is not a neighbor of any other node,
     // check if it is not diagonal to any other node, choose the smallest possible value,
     // that is bigger than the previous value. allow 0 !
-    return isNotInDiagonal(path, j, i) && (j > path[i] || (path[0] != 0 && j == 0 && !isRevistedZero));
+    return canNotCheck(path, j, i) && (j > path[i] || (path[0] != 0 && j == 0 && !isRevistedZero));
   }
 
 
-  private static boolean isNotInDiagonal(int[] path, int j, int currentIndex) {
+  private static boolean canNotCheck(int[] path, int j, int currentIndex) {
 
-    for (int k = 0; k < currentIndex; k++) {
-      if (path[k] == j - (k - currentIndex) || path[k] == j + (k - currentIndex))
+    for (int k = currentIndex; k >= 0; k--) {
+      if (path[k] == j - (k - currentIndex) || path[k] == j + (k - currentIndex) || path[k] - j == 0)
         return false;
     }
     return true;
