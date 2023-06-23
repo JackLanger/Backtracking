@@ -61,11 +61,19 @@ public class Main {
   }
 
 
-  private static boolean canNotCheck(int[] path, int j, int currentIndex) {
+  private static boolean canNotCheck(int[] path, int currentVertical, int currentHorizontal) {
 
+    /*
 
-    for (int k = currentIndex-1; k >= 0; k--) {
-      if (path[k] == j - (k - currentIndex) || path[k] == j + (k - currentIndex) || path[k] - j == 0)
+    compare all values to the left of the current x coordinate until the first collision is found.
+    a collision happens if a row is already taken by another "queen" (path[k] == currentVertical)
+    a diagonal collision exists if : currentVertical - (k - currentHorizontal) equals the value of path[k]
+    this a diagonal can happen from top to bottom or bottom to top direction so the other direction has to be checked as well
+    (currentVertical + (k - currentHorizontal))
+
+    */
+    for (int k = currentHorizontal - 1; k >= 0; k--) {
+      if (path[k] == currentVertical - (k - currentHorizontal) || path[k] == currentVertical + (k - currentHorizontal) || path[k] - currentVertical == 0)
         return false;
     }
     return true;
