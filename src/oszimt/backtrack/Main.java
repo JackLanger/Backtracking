@@ -1,63 +1,77 @@
 package oszimt.backtrack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
 
-    int[][] result = damenProblem(8);
+    List<int[]> result = damenProblem(8);
 
-    System.out.println(Arrays.deepToString(result));
+    System.out.println(Arrays.deepToString(result.toArray()));
     // todo: create chess boards.
   }
 
 
-  public static int[][] damenProblem(int size) {
-    //TODO: refactor, remove tags and simplify
-    int[][] res = new int[size][];
-    boolean[] isRevistedZeros = new boolean[size];
+  public static List<int[]> damenProblem(int size) {
 
-    for (int a = 0; a < size; a++) {
+    List<int[]> res = new ArrayList<>();
 
-      int[] path = new int[size];
-      path[0] = a;
-      outer:
-      for (int x = 1; x < size; x++) {
 
-        if (x < size - 1) {
-          path[x + 1] = 0;
-          isRevistedZeros[x + 1] = false;
-        }
+    int[] path = new int[size];
+    Arrays.fill(path, -1);
+    outer:
+    for (int x = 0; x < size; x++) {
 
-        for (int y = 0; y < size; y++) {
+      if (x < size - 1) {
+        path[x + 1] = -1;
+      }
 
-          if (isValidPosition(path, x, y, isRevistedZeros[x])) {
-            path[x] = y;
+      for (int y = path[x]; y < size; y++) {
+
+        if (isValidPosition(path, x, y)) {
+          path[x] = y;
+
+          if (x == size - 1) {
+            res.add(deepCopy(path));
+            x -= 2;
+
+          } else
             continue outer;
 
-          } else if (y == size - 1) {
+        } else if (y == size - 1) {
 
-            isRevistedZeros[x - 1] = true;
-            x -= 2;// reduce i to step back
+          x -= 2;// reduce i to step back
 
-          }
         }
-
+        if (x < 0) {
+          if (path[0] == size - 1) break outer;
+          else continue outer;
+        }
       }
-      res[a] = path;
     }
+
 
     return res;
   }
 
 
-  private static boolean isValidPosition(int[] path, int i, int j, boolean isRevistedZero) {
+  private static int[] deepCopy(int[] path) {
+
+    int[] copy = new int[path.length];
+    System.arraycopy(path, 0, copy, 0, copy.length);
+    return copy;
+  }
+
+
+  private static boolean isValidPosition(int[] path, int i, int j) {
 
 
     // check if the placement is not a neighbor of any other node,
     // check if it is not diagonal to any other node, choose the smallest possible value,
     // that is bigger than the previous value. allow 0 !
-    return canNotCheck(path, j, i) && (j > path[i] || (path[0] != 0 && j == 0 && !isRevistedZero));
+    return canNotCheck(path, j, i) && (j > path[i]);
   }
 
 
