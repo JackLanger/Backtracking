@@ -16,7 +16,6 @@ public class Main {
     //TODO: refactor, remove tags and simplify
     int[][] res = new int[size][];
     boolean[] isRevistedZeros = new boolean[size];
-    mainLoop:
 
     for (int a = 0; a < size; a++) {
 
