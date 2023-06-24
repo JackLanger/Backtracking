@@ -78,17 +78,18 @@ public class Main {
 
     /*
 
-    compare all values to the left of the current x coordinate until the first collision is found.
-    a collision happens if a row is already taken by another "queen" (path[k] == currentVertical)
-    a diagonal collision exists if : currentVertical - (k - currentHorizontal) equals the value of path[k]
-    this a diagonal can happen from top to bottom or bottom to top direction so the other direction has to be checked as well
-    (currentVertical + (k - currentHorizontal))
+    Diagonaler Vergleich: Ein element das in einem Koordinaten system diagonal zum ursprung liegt hat,
+    weist stets ein verhältnis |X/Y| = 1 auf.
+    Möchte man wissen, ob ein element zu einem anderem element diagonal benachbart ist,
+    muss dieses element ebenfalls ein Verhältnis von X/Y = +-1 aufweisen.
+    => x = b-a,  y = f(b)-f(a) , b-a/|f(b)-f(a)| = 1 <=> b-a = |f(b)-f(a)|
 
     */
     for (int k = currentHorizontal - 1; k >= 0; k--) {
-      int delta = (k - currentHorizontal);
 
-      if (currentVertical == path[k] || currentVertical - path[k] == currentHorizontal)
+      if (currentVertical == path[k]
+          || currentHorizontal - k == Math.abs(currentVertical - path[k]))
+
         return false;
 
     }
