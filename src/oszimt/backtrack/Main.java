@@ -8,7 +8,7 @@ public class Main {
   public static void main(String[] args) {
 
 
-    solveNQueens(8);
+    solveNQueens(12);
 //    List<int[]> result = damenProblem(8);
 
 //    System.out.println(Arrays.deepToString(result.toArray()));
