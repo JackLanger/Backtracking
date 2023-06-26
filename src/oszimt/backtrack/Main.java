@@ -18,34 +18,35 @@ public class Main {
 
     List<int[]> res = new ArrayList<>();
 
-    int[] path = new int[size];
-    Arrays.fill(path, -1);
+    int[] kombination = new int[size];
+    Arrays.fill(kombination, -1);
+
     outer:
     for (int x = 0; x < size; x++) {
 
       if (x < size - 1) {
-        path[x + 1] = -1;
+        kombination[x + 1] = -1;
       }
 
-      for (int y = path[x]; y < size; y++) {
+      for (int y = kombination[x]; y < size; y++) {
 
-        if (isValidPosition(path, x, y)) {
-          path[x] = y;
+        if (isValidPosition(kombination, x, y)) {
+          kombination[x] = y;
 
-          if (x == size - 1) {
-            res.add(deepCopy(path));
+          if (x == size - 1) { // is a full kombination of queens ?
+            res.add(deepCopy(kombination));
             x--;
 
-          } else
-            continue outer;
+          } else break; // break out of inner loop to continue on horizontal
 
-        } else if (y == size - 1) {
+        } else if (y == size - 1) { // not valid and all possible combinations have been tried
 
-          x -= 2;// reduce i to step back
+          x -= 2; // reduce i to step back
 
         }
         if (x < 0) {
-          if (path[0] == size - 1) break outer;
+          // no valid combinations have been found
+          if (kombination[0] == size - 1) break outer;
           else continue outer;
         }
       }
@@ -56,25 +57,25 @@ public class Main {
   }
 
 
-  private static int[] deepCopy(int[] path) {
+  private static int[] deepCopy(int[] array) {
 
-    int[] copy = new int[path.length];
-    System.arraycopy(path, 0, copy, 0, copy.length);
+    int[] copy = new int[array.length];
+    System.arraycopy(array, 0, copy, 0, copy.length);
     return copy;
   }
 
 
-  private static boolean isValidPosition(int[] path, int i, int j) {
+  private static boolean isValidPosition(int[] kombination, int i, int j) {
 
 
     // check if the placement is not a neighbor of any other node,
     // check if it is not diagonal to any other node, choose the smallest possible value,
     // that is bigger than the previous value. allow 0 !
-    return canNotCheck(path, j, i) && (j > path[i]);
+    return canNotCheck(kombination, j, i) && (j > kombination[i]);
   }
 
 
-  public static boolean canNotCheck(int[] path, int currentVertical, int currentHorizontal) {
+  public static boolean canNotCheck(int[] kombination, int currentVertical, int currentHorizontal) {
 
     /*
 
@@ -87,8 +88,8 @@ public class Main {
     */
     for (int k = currentHorizontal - 1; k >= 0; k--) {
 
-      if (currentVertical == path[k]
-          || currentHorizontal - k == Math.abs(currentVertical - path[k]))
+      if (currentVertical == kombination[k]
+          || currentHorizontal - k == Math.abs(currentVertical - kombination[k]))
 
         return false;
 
